@@ -16,6 +16,7 @@ services:
       - ../run.sh:/ARte/run.sh
     env_file:
       - ../src/.envs/.env
+    command: ./run.sh
 
   postgres:
     image: postgres:12.6

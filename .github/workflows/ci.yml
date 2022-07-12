@@ -28,13 +28,6 @@ jobs:
     steps:
       - name: Check out code from Github
         uses: actions/checkout@v3
-      # - name: Install poetry
-      #   run: |
-      #     curl -sSL \
-      #       https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
-      #     echo "$HOME/.poetry/bin" >> $GITHUB_PATH
-      # - name: Install dependencies
-      #   run: poetry install
       - name: Build image
         run: |
           # docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
@@ -64,12 +57,11 @@ jobs:
           cp src/.envs/.example src/.envs/.env
           docker load -i docker_image
           docker-compose -f docker/docker-compose.ci.yml -p jandigarte_$GITHUB_SHA up --no-build -d
-          docker ps
       - name: Test migrations
         run: |
           docker exec jandigarte_${{ github.sha }}_django_1 \
-            python3 src/ARte/manage.py makemigrations --check --dry-run && \
-            python3 src/ARte/manage.py migrate
+            python src/ARte/manage.py makemigrations --check --dry-run && \
+            python src/ARte/manage.py migrate
       - name: Clean up containers
         run: |
           docker-compose -f docker/docker-compose.ci.yml down --volume
