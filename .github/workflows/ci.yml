@@ -58,10 +58,12 @@ jobs:
         with:
           name: jandigarte
       - name: Running container
+        env:
+          IMAGE_NAME: jandigarte/django:${{ github.sha }}
         run: |
           cp src/.envs/.example src/.envs/.env
           docker load -i docker_image
-          docker-compose -f docker/docker-compose.yml -p jandigarte_$GITHUB_ACTION up --no-build
+          docker-compose -f docker/docker-compose.ci.yml -p jandigarte_$GITHUB_ACTION up --no-build
       - name: Test migrations
         run: |
           docker exec -it jandigarte_$GITHUB_ACTION_django_1 \
