@@ -63,9 +63,12 @@ jobs:
         run: |
           cp src/.envs/.example src/.envs/.env
           docker load -i docker_image
-          docker-compose -f docker/docker-compose.ci.yml -p jandigarte_$GITHUB_ACTION up --no-build
+          docker-compose -f docker/docker-compose.ci.yml -p jandigarte_$GITHUB_ACTION up --no-build -d
       - name: Test migrations
         run: |
           docker exec -it jandigarte_$GITHUB_ACTION_django_1 \
             python3 src/ARte/manage.py makemigrations --check --dry-run && \
             python3 src/ARte/manage.py migrate
+      - name: Clean up containers
+        run: |
+          docker-compose -f docker/docker-compose.ci.yml down --volume
