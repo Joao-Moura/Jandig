@@ -28,10 +28,6 @@ jobs:
     steps:
       - name: Check out code from Github
         uses: actions/checkout@v3
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
       # - name: Install poetry
       #   run: |
       #     curl -sSL \
@@ -57,17 +53,13 @@ jobs:
     steps:
       - name: Check out code from Github
         uses: actions/checkout@v3
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
       - name: Downloading image
         uses: actions/download-artifact@v3
         with:
           name: jandigarte
       - name: Running container
         run: |
-          cp src/ARte/.envs/.example src/ARte/.envs/.env
+          cp src/.envs/.example src/.envs/.env
           docker load -i docker_image
           docker-compose -f docker/docker-compose.yml -p jandigarte_$GITHUB_ACTION up --no-build
       - name: Test migrations
