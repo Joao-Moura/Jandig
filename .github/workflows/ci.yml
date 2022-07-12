@@ -41,8 +41,8 @@ jobs:
       - name: Build image
         run: |
           # docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
-          docker build . -f docker/Dockerfile -t jandigarte/django:$DOCKER_TAG
-          docker save -o docker_image jandigarte/django:$DOCKER_TAG
+          docker build . -f docker/Dockerfile -t jandigarte/django:$GITHUB_SHA
+          docker save -o docker_image jandigarte/django:$GITHUB_SHA
       - name: Saving image
         uses: actions/upload-artifact@v3
         with:
