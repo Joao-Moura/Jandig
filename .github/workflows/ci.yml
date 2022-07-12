@@ -64,9 +64,10 @@ jobs:
           cp src/.envs/.example src/.envs/.env
           docker load -i docker_image
           docker-compose -f docker/docker-compose.ci.yml -p jandigarte_$GITHUB_SHA up --no-build -d
+          docker ps
       - name: Test migrations
         run: |
-          docker exec -i jandigarte_${{ github.sha }}_django_1 \
+          docker exec jandigarte_${{ github.sha }}_django_1 \
             python3 src/ARte/manage.py makemigrations --check --dry-run && \
             python3 src/ARte/manage.py migrate
       - name: Clean up containers
