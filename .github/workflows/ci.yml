@@ -24,6 +24,7 @@ jobs:
   build:
     name: run / build
     runs-on: ubuntu-latest
+    needs: linter
     steps:
       - name: Check out code from Github
         uses: actions/checkout@v3
@@ -49,18 +50,27 @@ jobs:
           name: jandigarte
           path: docker_image
 
-  # migrations:
-  #   name: test / migrations
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   steps:
-  #     - name: Check out code from Github
-  #       uses: actions/checkout@v3
-  #     - name: Set up Python 3.10
-  #       uses: actions/setup-python@v4
-  #       with:
-  #         python-version: "3.10"
-  #     - name: Test migrations
-  #       run: |
-  #         python src/ARte/manage.py makemigrations --check --dry-run
-  #         python src/ARte/manage.py migrate
+  migrations:
+    name: test / migrations
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Check out code from Github
+        uses: actions/checkout@v3
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Downloading image
+        uses: actions/download-artifact@v3
+        with:
+          name: jandigarte
+      - name: Run container
+        run: |
+          docker load -i docker_image
+          docker-compose -f docker/docker-compose.yml -p jandigarte_$GITHUB_ACTION up --no-build
+      - name: Test migrations
+        run: |
+          docker exec -it jandigarte_$GITHUB_ACTION_django_1 \
+            python3 src/ARte/manage.py makemigrations --check --dry-run && \
+            python3 src/ARte/manage.py migrate
