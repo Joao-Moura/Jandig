@@ -59,6 +59,6 @@ jobs:
           docker-compose -f docker/docker-compose.ci.yml -p jandigarte_$GITHUB_SHA up --no-build -d
       - name: Test migrations
         run: |
-          docker exec jandigarte_${{ github.sha }}_django_1 \
+          docker exec jandigarte_${{ github.sha }}_django_1 sh -c "\
             poetry run src/ARte/manage.py makemigrations --check --dry-run && \
-            poetry run src/ARte/manage.py migrate
+            poetry run src/ARte/manage.py migrate"
