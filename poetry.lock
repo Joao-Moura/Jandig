@@ -172,17 +172,6 @@ Django = ">=3.2"
 sqlparse = ">=0.2.0"
 
 [[package]]
-name = "django-docs"
-version = "0.3.1"
-description = "Allows to serve Sphinx generated docs from django."
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-Django = ">=1.11"
-
-[[package]]
 name = "django-environ"
 version = "0.9.0"
 description = "A package that allows you to utilize 12factor inspired environment variables to configure your Django application."
@@ -719,7 +708,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "18a8a4d046ba417d8006c1896e8279bb1ac8f52398d32946b5e988a2ab3dbb2b"
+content-hash = "5fbb947f1abc2c07b95e83d1136c9c01abc60de5f0272c77e7d461565e18a24f"
 
 [metadata.files]
 alabaster = [
@@ -838,10 +827,6 @@ django-cors-headers = [
 django-debug-toolbar = [
     {file = "django-debug-toolbar-3.5.0.tar.gz", hash = "sha256:97965f2630692de316ea0c1ca5bfa81660d7ba13146dbc6be2059cf55b35d0e5"},
     {file = "django_debug_toolbar-3.5.0-py3-none-any.whl", hash = "sha256:89a52128309eb4da12738801ff0c202d2ff8730d1c3225fac6acf630c303e661"},
-]
-django-docs = [
-    {file = "django-docs-0.3.1.tar.gz", hash = "sha256:5d2a240b1208a41a6c4d1bf6a4350260b34b2f274df2e27d5c4481e0a66d3bef"},
-    {file = "django_docs-0.3.1-py3-none-any.whl", hash = "sha256:b233e0b30e2ad417787f0276c3750c90ed9d00cbb3bec1b63f10028c06e5bcdc"},
 ]
 django-environ = [
     {file = "django-environ-0.9.0.tar.gz", hash = "sha256:bff5381533056328c9ac02f71790bd5bf1cea81b1beeb648f28b81c9e83e0a21"},

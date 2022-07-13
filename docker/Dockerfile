@@ -1,8 +1,8 @@
-# FROM jandigarte/requirements:latest
+# FROM jandigarte/requirements:latest  # essa é a build do base.Dockerfile
 FROM python:3.10-slim-bullseye
 
-RUN apt --allow-releaseinfo-change update && \
-    apt install -y --no-install-recommends \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
     gettext \
     docutils-common \
     curl
