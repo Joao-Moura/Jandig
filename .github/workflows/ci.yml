@@ -60,8 +60,8 @@ jobs:
       - name: Test migrations
         run: |
           docker exec jandigarte_${{ github.sha }}_django_1 \
-            python src/ARte/manage.py makemigrations --check --dry-run && \
-            python src/ARte/manage.py migrate
+            poetry run src/ARte/manage.py makemigrations --check --dry-run && \
+            poetry run src/ARte/manage.py migrate
       - name: Clean up containers
         run: |
           docker-compose -f docker/docker-compose.ci.yml down --volume

@@ -18,6 +18,7 @@ COPY ./etc/ /ARte/etc/
 COPY ./pyproject.toml /ARte/pyproject.toml
 
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3
-RUN $HOME/.poetry/bin/poetry install
+ENV PATH "${PATH}:/root/.poetry/bin"
+RUN poetry install
 
 RUN find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
