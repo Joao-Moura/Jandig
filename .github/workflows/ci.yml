@@ -33,8 +33,8 @@ jobs:
           # docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
           docker build . -f docker/Dockerfile -t jandigarte/django:$GITHUB_SHA
           docker save -o docker_image jandigarte/django:$GITHUB_SHA
-      - name: Saving image
-        uses: actions/upload-artifact@v3
+      - name: Caching image
+        uses: actions/cache@v3
         with:
           name: jandigarte
           path: docker_image
@@ -46,10 +46,11 @@ jobs:
     steps:
       - name: Check out code from Github
         uses: actions/checkout@v3
-      - name: Downloading image
-        uses: actions/download-artifact@v3
+      - name: Restoring cached image
+        uses: actions/cache@v3
         with:
           name: jandigarte
+          path: docker_image
       - name: Running container
         env:
           IMAGE_NAME: jandigarte/django:${{ github.sha }}
