@@ -16,6 +16,7 @@ COPY ./tasks.py /ARte/tasks.py
 COPY ./run.sh /ARte/run.sh
 COPY ./etc/ /ARte/etc/
 COPY ./pyproject.toml /ARte/pyproject.toml
+COPY ./poetry.lock /ARte/poetry.lock
 
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3
 ENV PATH "${PATH}:/root/.poetry/bin"
