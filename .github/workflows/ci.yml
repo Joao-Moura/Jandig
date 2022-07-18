@@ -32,12 +32,12 @@ jobs:
         run: |
           # docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
           docker build . -f docker/Dockerfile -t jandigarte/django:$GITHUB_SHA
-          docker save -o docker_image jandigarte/django:$GITHUB_SHA
+          docker save -o docker_image_$GITHUB_SHA jandigarte/django:$GITHUB_SHA
       - name: Caching image
         uses: actions/cache@v3
         with:
           key: jandigarte
-          path: docker_image
+          path: docker_image_${{ github.sha }}
 
   migrations:
     name: test / migrations
@@ -50,13 +50,13 @@ jobs:
         uses: actions/cache@v3
         with:
           key: jandigarte
-          path: docker_image
+          path: docker_image_${{ github.sha }}
       - name: Running container
         env:
           IMAGE_NAME: jandigarte/django:${{ github.sha }}
         run: |
           cp src/.envs/.example src/.envs/.env
-          docker load -i docker_image
+          docker load -i docker_image_$GITHUB_SHA
           docker-compose -f docker/docker-compose.ci.yml -p jandigarte_$GITHUB_SHA up --no-build -d
       - name: Test migrations
         run: |
