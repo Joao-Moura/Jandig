@@ -1,0 +1,40 @@
+name: Push docker pipeline
+
+on: [push, pull_request]
+
+jobs:
+  dependencies:
+    name: push / dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code from Github
+        uses: actions/checkout@v3
+      - name: Check diff
+        id: diff_lock
+        run: |
+          echo "::set-output name=dependencies::$(git diff --name-only | grep pyproject.toml -c)"
+      - name: Build requirements image
+        if: ${{ steps.update_poetry.outputs.dependencies == 0 }}
+        run: |
+          docker build . -f docker/base.Dockerfile -t jandigarte/requirements:latest
+      - name: Push requirements image
+        if: ${{ steps.update_poetry.outputs.dependencies == 0 }}
+        run: |
+          docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+          docker push jandigarte/requirements:latest
+
+  # django:
+  #   name: push / dependencies
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Check out code from Github
+  #       uses: actions/checkout@v3
+  #     - name: Build requirements image
+  #       if: ${{ steps.update_poetry.outputs.dependencies == 0 }}
+  #       run: |
+  #         docker build . -f docker/base.Dockerfile -t jandigarte/requirements:latest
+  #     - name: Push requirements image
+  #       if: ${{ steps.update_poetry.outputs.dependencies == 0 }}
+  #       run: |
+  #         docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+  #         docker push jandigarte/requirements:latest
