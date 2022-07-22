@@ -10,15 +10,15 @@ jobs:
       - name: Check out code from Github
         uses: actions/checkout@v3
       - name: Check diff
-        id: diff_lock
+        id: diff_dependencies
         run: |
           echo "::set-output name=dependencies::$(git diff --name-only | grep pyproject.toml -c)"
       - name: Build requirements image
-        if: ${{ steps.update_poetry.outputs.dependencies == 0 }}
+        if: ${{ steps.diff_dependencies.outputs.dependencies == 0 }}
         run: |
           docker build . -f docker/base.Dockerfile -t jandigarte/requirements:latest
       - name: Push requirements image
-        if: ${{ steps.update_poetry.outputs.dependencies == 0 }}
+        if: ${{ steps.diff_dependencies.outputs.dependencies == 0 }}
         run: |
           docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
           docker push jandigarte/requirements:latest

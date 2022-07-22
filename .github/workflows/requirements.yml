@@ -17,5 +17,5 @@ jobs:
         run: |
           echo "::set-output name=dependencies::$(git diff --name-only | grep poetry.lock -c)"
       - name: Check poetry lock
-        if: ${{ steps.update_poetry.outputs.dependencies == 0 }}
+        if: ${{ steps.diff_lock.outputs.dependencies == 0 }}
         run: exit 1

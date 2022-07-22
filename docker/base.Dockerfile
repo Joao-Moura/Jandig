@@ -6,7 +6,8 @@ RUN apt-get update && \
     docutils-common \
     curl
 
-COPY ./pyproject.toml /ARte/pyproject.toml
+COPY ./pyproject.toml .
+COPY ./poetry.lock .
 
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3
 ENV PATH "${PATH}:/root/.poetry/bin"
