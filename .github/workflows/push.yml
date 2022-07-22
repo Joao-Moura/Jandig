@@ -20,7 +20,7 @@ jobs:
       - name: Push requirements image
         if: ${{ steps.diff_dependencies.outputs.dependencies == 0 }}
         run: |
-          docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+          docker login -u ${{ secrets.DOCKER_HUB_USER }} -p ${{ secrets.DOCKER_HUB_PASS }}
           docker push jandigarte/requirements:latest
 
   # django:
