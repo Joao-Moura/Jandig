@@ -15,11 +15,11 @@ jobs:
         run: |
           echo "::set-output name=dependencies::$(git diff --name-only | grep pyproject.toml -c)"
       - name: Build requirements image
-        if: ${{ steps.diff_dependencies.outputs.dependencies != 0 }}
+        if: ${{ steps.diff_dependencies.outputs.dependencies == 0 }}
         run: |
           docker build . -f docker/base.Dockerfile -t jombinhobirabira/requirements:latest
       - name: Push requirements image
-        if: ${{ steps.diff_dependencies.outputs.dependencies != 0 }}
+        if: ${{ steps.diff_dependencies.outputs.dependencies == 0 }}
         run: |
           docker login -u ${{ secrets.DOCKER_HUB_USER }} -p ${{ secrets.DOCKER_HUB_PASS }}
           docker push jombinhobirabira/requirements:latest
