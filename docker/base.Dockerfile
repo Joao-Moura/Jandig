@@ -7,6 +7,7 @@ RUN apt-get update && \
     curl
 
 COPY ./pyproject.toml .
+RUN cat ./pyproject.toml
 COPY ./poetry.lock .
 
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3
