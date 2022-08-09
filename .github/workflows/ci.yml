@@ -84,4 +84,4 @@ jobs:
       - name: Running users tests
         run: |
           docker exec jandigarte_${{ github.sha }}_django_1 sh -c "\
-            poetry run pytest src/ARte/users/tests.py
+            poetry run pytest src/ARte/users/tests.py"
